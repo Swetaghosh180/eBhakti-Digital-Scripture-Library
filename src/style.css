@@ -1,0 +1,205 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@400;500;600;700&display=swap');
+
+/* Suppress Google Translate */
+#google_translate_element, .goog-te-banner-frame, .skiptranslate { display: none !important; }
+body { top: 0 !important; position: static !important; }
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #F8F6F1;
+    color: #1F2937;
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+}
+
+@layer components {
+  /* Sanskrit text */
+  .sanskrit {
+    font-family: 'Noto Serif Devanagari', serif;
+    font-size: 1.25rem;
+    line-height: 2.4;
+    letter-spacing: 0.02em;
+    color: #1F2937;
+  }
+
+  /* Cards */
+  .editorial-card {
+    @apply bg-white border border-border-subtle;
+    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease;
+  }
+  .editorial-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.07);
+  }
+
+  /* Buttons */
+  .btn-minimal {
+    @apply inline-block text-charcoal border border-charcoal px-7 py-3 text-sm font-medium tracking-wide;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+  .btn-minimal:hover {
+    @apply bg-charcoal text-white;
+    transform: translateY(-1px);
+  }
+  .btn-gold {
+    @apply inline-block text-white bg-gold px-7 py-3 text-sm font-medium tracking-wide;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+  }
+  .btn-gold:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  /* Tags */
+  .tag-minimal {
+    @apply inline-block border border-gold text-gold text-xs uppercase tracking-wider px-3 py-0.5 transition-colors duration-200 hover:bg-gold hover:text-white cursor-default;
+  }
+
+  /* Navigation links */
+  .link-elegant {
+    @apply relative pb-0.5;
+  }
+  .link-elegant::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-px bg-gold transition-all duration-300;
+  }
+  .link-elegant:hover::after {
+    @apply w-full;
+  }
+
+  /* Dividers */
+  .divider-subtle {
+    @apply border-t border-border-subtle;
+  }
+}
+
+@layer utilities {
+  /* ── Skeleton ── */
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background: #ede9df;
+    border-radius: 4px;
+  }
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+  }
+
+  /* ── Stagger reveal ── */
+  .stagger-item {
+    opacity: 0;
+    animation: fadeSlideUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+
+  /* ── Fade scale (for cards) ── */
+  .fade-scale-item {
+    opacity: 0;
+    animation: fadeScale 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+
+  /* ── Hover lift on cards ── */
+  .hover-lift {
+    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  }
+
+  /* ── Gold underline reveal ── */
+  .gold-underline {
+    position: relative;
+  }
+  .gold-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 2px;
+    background: #C9922A;
+    transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
+  }
+  .gold-underline:hover::after { width: 100%; }
+
+  /* ── Pulse dot (splash / loading) ── */
+  .pulse-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #C9922A;
+    animation: pulseDot 1.4s ease-in-out infinite;
+  }
+
+  /* ── Reading mode — distraction-free ── */
+  .reading-mode {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 5rem 2rem 8rem;
+    background: #FDFAF5;
+    min-height: 100vh;
+  }
+  .reading-mode .sanskrit {
+    font-size: 1.375rem;
+    line-height: 2.6;
+  }
+  .reading-mode h1 {
+    font-size: 2rem;
+  }
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.8); opacity: 0.4; }
+}
+
+@keyframes drawLine {
+  from { width: 0; }
+  to   { width: 3rem; }
+}
+
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
