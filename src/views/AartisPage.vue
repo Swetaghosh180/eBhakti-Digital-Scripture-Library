@@ -1,83 +1,105 @@
 <template>
-  <div class="max-w-reading mx-auto px-8 py-16">
-    <div class="mb-16">
-      <p class="text-xs uppercase tracking-widest text-gold mb-3">Devotional Prayers</p>
-      <h1 class="text-4xl font-serif text-charcoal mb-4">Aartis</h1>
-      <p class="text-text-secondary">Traditional lamp offerings and devotional songs.</p>
+  <div>
+    <div class="bg-parchment border-b border-border-subtle">
+      <div class="max-w-reading mx-auto px-6 md:px-8 py-14">
+        <p class="section-label mb-3">{{ t('aartis.label') }}</p>
+        <h1 class="text-4xl md:text-5xl font-serif text-charcoal mb-4">{{ t('aartis.title') }}</h1>
+        <p class="text-text-secondary text-lg max-w-xl">{{ t('aartis.subtitle') }}</p>
+      </div>
     </div>
 
-    <div class="flex flex-col md:flex-row gap-4 mb-12">
-      <input
-        v-model="searchQuery"
-        placeholder="Search aartis..."
-        class="flex-1 px-5 py-4 border border-border-subtle focus:outline-none focus:border-gold transition-colors text-charcoal bg-white"
-      >
-      <select
-        v-model="selectedDeity"
-        class="px-5 py-4 border border-border-subtle focus:outline-none focus:border-gold transition-colors text-text-secondary bg-white"
-      >
-        <option value="">All Deities</option>
-        <option v-for="d in deityOptions" :key="d" :value="d">{{ d }}</option>
-      </select>
-    </div>
-
-    <div>
-      <template v-if="loading">
-        <div v-for="n in 4" :key="n" class="py-8 border-t border-border-subtle first:border-0">
-          <div class="skeleton h-5 w-1/2 mb-3"></div>
-          <div class="skeleton h-3 w-1/4 mb-3"></div>
-          <div class="skeleton h-3 w-3/4"></div>
+    <div class="max-w-reading mx-auto px-6 md:px-8 py-10">
+      <div class="flex flex-col sm:flex-row gap-3 mb-10">
+        <div class="relative flex-1">
+          <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input v-model="searchQuery" :placeholder="t('aartis.searchPlaceholder')" class="w-full pl-11 pr-4 py-3.5 border border-border-subtle focus:outline-none focus:border-gold transition-colors text-charcoal bg-white text-sm">
         </div>
-      </template>
-      <div
-        v-else
-        v-for="(aarti, index) in filtered"
-        :key="aarti.id"
-        class="py-8 cursor-pointer hover:bg-white transition-colors duration-150 px-4 -mx-4 group stagger-item"
-        :class="{ 'border-t border-border-subtle': index > 0 }"
-        :style="{ animationDelay: `${index * 60}ms` }"
-        @click="$router.push(`/content/${aarti.id}`)"
-      >
-        <div class="flex items-start justify-between gap-4">
-          <div class="flex-1">
-            <h3 class="text-xl font-serif text-charcoal mb-2 group-hover:text-gold transition-colors duration-200">
-              {{ aarti.title }}
-            </h3>
-            <p class="text-text-secondary text-sm mb-3">{{ aarti.deity }} · {{ aarti.language }}</p>
-            <p class="text-text-secondary text-sm leading-relaxed">{{ aarti.description }}</p>
-            <div class="flex flex-wrap gap-2 mt-3">
-              <span v-for="tag in (aarti.tags || []).slice(0,3)" :key="tag" class="tag-minimal">{{ tag }}</span>
+        <select v-model="selectedDeity" class="px-4 py-3.5 border border-border-subtle focus:outline-none focus:border-gold transition-colors text-text-secondary bg-white text-sm min-w-40">
+          <option value="">{{ t('aartis.allDeities') }}</option>
+          <option v-for="d in deityOptions" :key="d" :value="d">{{ d }}</option>
+        </select>
+      </div>
+
+      <p v-if="!loading" class="text-xs text-text-muted uppercase tracking-widest mb-6">
+        {{ filtered.length }} {{ filtered.length === 1 ? t('aartis.foundOne') : t('aartis.found') }}
+      </p>
+
+      <div class="bg-white border border-border-subtle overflow-hidden">
+        <template v-if="loading">
+          <div v-for="n in 4" :key="n" class="px-6 py-6 border-b border-border-subtle last:border-0">
+            <div class="flex gap-4">
+              <div class="skeleton w-10 h-10 flex-shrink-0"></div>
+              <div class="flex-1">
+                <div class="skeleton h-5 w-1/2 mb-3"></div>
+                <div class="skeleton h-3 w-1/4 mb-3"></div>
+                <div class="skeleton h-3 w-3/4"></div>
+              </div>
             </div>
           </div>
-          <span class="text-gold text-lg flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
+        </template>
+
+        <div
+          v-else
+          v-for="(aarti, index) in filtered"
+          :key="aarti.id"
+          class="content-row px-6 py-6 group stagger-item"
+          :class="{ 'border-t border-border-subtle': index > 0 }"
+          :style="{ animationDelay: `${index * 50}ms` }"
+          @click="$router.push(`/content/${aarti.id}`)"
+        >
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 flex items-center justify-center flex-shrink-0 rounded-sm text-lg" style="background:#FDF5EC;">🪔</div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex-1">
+                  <h3 class="text-lg font-serif text-charcoal mb-1 group-hover:text-gold transition-colors duration-200">{{ aarti.title }}</h3>
+                  <p class="text-text-secondary text-sm mb-2">{{ aarti.deity }} · {{ aarti.language }}</p>
+                  <p class="text-text-secondary text-sm leading-relaxed line-clamp-2">{{ aarti.description }}</p>
+                  <div class="flex flex-wrap gap-1.5 mt-3">
+                    <span v-for="tag in (aarti.tags || []).slice(0,3)" :key="tag" class="tag-devotional">{{ tag }}</span>
+                  </div>
+                </div>
+                <svg class="w-5 h-5 text-gold flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="!loading && !filtered.length" class="px-6 py-16 text-center">
+          <p class="text-4xl mb-4">🪔</p>
+          <p class="text-text-secondary">{{ t('aartis.notFound') }}</p>
         </div>
       </div>
-      <p v-if="!filtered.length" class="text-text-secondary py-12 text-center">No aartis found.</p>
     </div>
   </div>
 </template>
 
 <script>
 import { aartis } from '../content/aartis.js';
-
+import { langMixin } from '../utils/langMixin.js';
 export default {
   name: 'AartisPage',
-  data() {
-    return { searchQuery: '', selectedDeity: '', aartis, loading: true };
-  },
+  mixins: [langMixin],
+  data() { return { searchQuery: '', selectedDeity: '', aartis, loading: true }; },
   mounted() { setTimeout(() => { this.loading = false; }, 500); },
   computed: {
-    deityOptions() {
-      return [...new Set(this.aartis.map(a => a.deity))];
-    },
+    deityOptions() { return [...new Set(this.aartis.map(a => a.deity))]; },
     filtered() {
       return this.aartis.filter(a => {
         const q = this.searchQuery.toLowerCase();
-        const matchSearch = a.title.toLowerCase().includes(q) || (a.description || '').toLowerCase().includes(q);
-        const matchDeity = !this.selectedDeity || a.deity === this.selectedDeity;
-        return matchSearch && matchDeity;
+        return (a.title.toLowerCase().includes(q) || (a.description || '').toLowerCase().includes(q))
+          && (!this.selectedDeity || a.deity === this.selectedDeity);
       });
     }
   }
 };
 </script>
+
+<style scoped>
+.section-label { font-size:0.6875rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#C48A3A; display:block; }
+.bg-parchment { background:#F5EFE4; }
+</style>

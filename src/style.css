@@ -2,7 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@400;500;600;700&display=swap');
 
 /* Suppress Google Translate */
 #google_translate_element, .goog-te-banner-frame, .skiptranslate { display: none !important; }
@@ -11,11 +11,12 @@ body { top: 0 !important; position: static !important; }
 @layer base {
   body {
     font-family: 'Inter', sans-serif;
-    background: #F8F6F1;
-    color: #1F2937;
+    background: #FAF7F2;
+    color: #1C1917;
     line-height: 1.7;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -23,183 +24,373 @@ body { top: 0 !important; position: static !important; }
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.2;
+    color: #1C1917;
+  }
+
+  ::selection {
+    background: rgba(196, 138, 58, 0.2);
+    color: #1C1917;
+  }
+
+  * {
+    scroll-behavior: smooth;
   }
 }
 
 @layer components {
-  /* Sanskrit text */
+
+  /* ── Sanskrit / Devanagari text ── */
   .sanskrit {
     font-family: 'Noto Serif Devanagari', serif;
-    font-size: 1.25rem;
-    line-height: 2.4;
-    letter-spacing: 0.02em;
-    color: #1F2937;
+    font-size: 1.3rem;
+    line-height: 2.5;
+    letter-spacing: 0.03em;
+    color: #1C1917;
+  }
+  .sanskrit-lg {
+    font-family: 'Noto Serif Devanagari', serif;
+    font-size: 1.6rem;
+    line-height: 2.8;
+    letter-spacing: 0.03em;
+    color: #1C1917;
   }
 
-  /* Cards */
-  .editorial-card {
-    @apply bg-white border border-border-subtle;
-    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease;
+  /* ── Devotional Cards ── */
+  .devotional-card {
+    background: #FFFFFF;
+    border: 1px solid #E8E2D9;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
   }
-  .editorial-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(0,0,0,0.07);
+  .devotional-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #C48A3A, #E8B96A, #C48A3A);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .devotional-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(28,25,23,0.12);
+    border-color: #D6CCBC;
+  }
+  .devotional-card:hover::before {
+    opacity: 1;
   }
 
-  /* Buttons */
-  .btn-minimal {
-    @apply inline-block text-charcoal border border-charcoal px-7 py-3 text-sm font-medium tracking-wide;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  /* ── Deity Cards ── */
+  .deity-card {
+    background: #FFFFFF;
+    border: 1px solid #E8E2D9;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
   }
-  .btn-minimal:hover {
-    @apply bg-charcoal text-white;
-    transform: translateY(-1px);
+  .deity-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(196,138,58,0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
+  .deity-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(196,138,58,0.18);
+    border-color: #C48A3A;
+  }
+  .deity-card:hover::after {
+    opacity: 1;
+  }
+
+  /* ── Content List Row ── */
+  .content-row {
+    border-bottom: 1px solid #E8E2D9;
+    transition: background 0.2s ease, padding-left 0.2s ease;
+    cursor: pointer;
+  }
+  .content-row:hover {
+    background: #FFFDF9;
+    padding-left: 1.25rem;
+  }
+  .content-row:last-child {
+    border-bottom: none;
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #C48A3A 0%, #E8B96A 100%);
+    color: #FFFFFF;
+    padding: 0.875rem 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 16px rgba(196,138,58,0.3);
+  }
+  .btn-primary:hover {
+    opacity: 0.92;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(196,138,58,0.4);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: #1C1917;
+    padding: 0.875rem 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 1.5px solid #1C1917;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .btn-outline:hover {
+    background: #1C1917;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+  }
+
   .btn-gold {
-    @apply inline-block text-white bg-gold px-7 py-3 text-sm font-medium tracking-wide;
-    transition: opacity 0.2s ease, transform 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: #C48A3A;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1.5px solid #C48A3A;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
   }
   .btn-gold:hover {
-    opacity: 0.88;
+    background: #C48A3A;
+    color: #FFFFFF;
     transform: translateY(-1px);
   }
 
-  /* Tags */
-  .tag-minimal {
-    @apply inline-block border border-gold text-gold text-xs uppercase tracking-wider px-3 py-0.5 transition-colors duration-200 hover:bg-gold hover:text-white cursor-default;
+  /* Legacy aliases */
+  .btn-minimal { @apply btn-outline; }
+
+  /* ── Tags ── */
+  .tag-devotional {
+    display: inline-block;
+    background: #FDF0E0;
+    color: #9E6B22;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid rgba(196,138,58,0.25);
+    border-radius: 2px;
+  }
+  .tag-minimal { @apply tag-devotional; }
+
+  /* ── Section Labels ── */
+  .section-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #C48A3A;
   }
 
-  /* Navigation links */
+  /* ── Gold Divider ── */
+  .divider-gold {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #C48A3A, transparent);
+    border: none;
+    margin: 0;
+  }
+  .divider-subtle {
+    border-top: 1px solid #E8E2D9;
+  }
+
+  /* ── Om Symbol ── */
+  .om-symbol {
+    font-family: 'Noto Serif Devanagari', serif;
+    color: #C48A3A;
+    line-height: 1;
+  }
+
+  /* ── Verse Block ── */
+  .verse-block {
+    background: linear-gradient(135deg, #FFFDF9 0%, #FAF7F2 100%);
+    border-left: 3px solid #C48A3A;
+    padding: 2rem 2.5rem;
+    margin: 0;
+    position: relative;
+  }
+  .verse-block::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: rgba(196,138,58,0.15);
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    line-height: 1;
+  }
+
+  /* ── Step Number ── */
+  .step-number {
+    width: 2.75rem;
+    height: 2.75rem;
+    background: linear-gradient(135deg, #C48A3A, #E8B96A);
+    color: #FFFFFF;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 2px;
+  }
+
+  /* ── Navigation link ── */
   .link-elegant {
-    @apply relative pb-0.5;
+    position: relative;
+    padding-bottom: 2px;
   }
   .link-elegant::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-px bg-gold transition-all duration-300;
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1.5px;
+    background: #C48A3A;
+    transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
   }
-  .link-elegant:hover::after {
-    @apply w-full;
-  }
+  .link-elegant:hover::after { width: 100%; }
 
-  /* Dividers */
-  .divider-subtle {
-    @apply border-t border-border-subtle;
+  /* ── Reading mode ── */
+  .reading-mode {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 5rem 2rem 8rem;
+    background: #FFFDF9;
+    min-height: 100vh;
+  }
+  .reading-mode .sanskrit { font-size: 1.45rem; line-height: 2.7; }
+  .reading-mode h1 { font-size: 2.25rem; }
+
+  /* ── Hero ornament ── */
+  .hero-ornament {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #C48A3A, transparent);
+    margin: 0 auto;
   }
 }
 
 @layer utilities {
-  /* ── Skeleton ── */
+
+  /* ── Skeleton shimmer ── */
   .skeleton {
     position: relative;
     overflow: hidden;
-    background: #ede9df;
-    border-radius: 4px;
+    background: #EDE9DF;
+    border-radius: 3px;
   }
   .skeleton::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
     background-size: 200% 100%;
     animation: shimmer 1.6s ease-in-out infinite;
   }
 
-  /* ── Stagger reveal ── */
+  /* ── Stagger animations ── */
   .stagger-item {
     opacity: 0;
-    animation: fadeSlideUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+    animation: fadeSlideUp 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
   }
-
-  /* ── Fade scale (for cards) ── */
   .fade-scale-item {
     opacity: 0;
     animation: fadeScale 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
   }
 
-  /* ── Hover lift on cards ── */
+  /* ── Hover lift ── */
   .hover-lift {
-    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
   }
   .hover-lift:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 32px rgba(28,25,23,0.1);
   }
 
-  /* ── Gold underline reveal ── */
-  .gold-underline {
-    position: relative;
-  }
-  .gold-underline::after {
-    content: '';
-    position: absolute;
-    bottom: -2px; left: 0;
-    width: 0; height: 2px;
-    background: #C9922A;
-    transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
-  }
-  .gold-underline:hover::after { width: 100%; }
-
-  /* ── Pulse dot (splash / loading) ── */
-  .pulse-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #C9922A;
-    animation: pulseDot 1.4s ease-in-out infinite;
+  /* ── Gold text gradient ── */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #C48A3A, #E8B96A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  /* ── Reading mode — distraction-free ── */
-  .reading-mode {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 5rem 2rem 8rem;
-    background: #FDFAF5;
-    min-height: 100vh;
-  }
-  .reading-mode .sanskrit {
-    font-size: 1.375rem;
-    line-height: 2.6;
-  }
-  .reading-mode h1 {
-    font-size: 2rem;
-  }
+  /* ── Warm bg ── */
+  .bg-warm { background: #FFFDF9; }
+  .bg-parchment { background: #F5EFE4; }
+  .bg-saffron-soft { background: #FDF0E0; }
 }
 
+/* ── Keyframes ── */
 @keyframes shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
-
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes fadeSlideDown {
-  from { opacity: 0; transform: translateY(-12px); }
+  from { opacity: 0; transform: translateY(-16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes fadeScale {
-  from { opacity: 0; transform: scale(0.96); }
+  from { opacity: 0; transform: scale(0.95); }
   to   { opacity: 1; transform: scale(1); }
 }
-
 @keyframes fadeOut {
   from { opacity: 1; transform: translateY(0); }
   to   { opacity: 0; transform: translateY(-8px); }
 }
-
 @keyframes pulseDot {
   0%, 100% { transform: scale(1);   opacity: 1; }
   50%       { transform: scale(1.8); opacity: 0.4; }
 }
-
 @keyframes drawLine {
   from { width: 0; }
-  to   { width: 3rem; }
+  to   { width: 4rem; }
 }
-
 @keyframes heroReveal {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(32px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes omPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.05); }
+}
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(196,138,58,0); }
+  50%       { box-shadow: 0 0 0 4px rgba(196,138,58,0.15); }
 }
