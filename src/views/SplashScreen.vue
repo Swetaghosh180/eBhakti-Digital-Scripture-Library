@@ -1,17 +1,7 @@
 <template>
   <div class="min-h-screen flex items-center justify-center overflow-hidden" style="background: linear-gradient(160deg, #FAF7F2 0%, #F5EFE4 50%, #FDF0E0 100%);">
-    <!-- Background Om watermark -->
-    <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-      <span class="text-gold opacity-5 leading-none" style="font-size: 40rem; font-family: 'Noto Serif Devanagari', serif; animation: omPulse 4s ease-in-out infinite;">ॐ</span>
-    </div>
-
     <div class="relative text-center px-8">
-      <!-- Om symbol -->
-      <div class="splash-om mb-6">
-        <span class="text-6xl leading-none" style="font-family: 'Noto Serif Devanagari', serif; color: #C48A3A;">ॐ</span>
-      </div>
-
-      <!-- Gold line -->
+      <!-- Title -->
       <div class="splash-line mb-8"></div>
 
       <!-- Title -->
@@ -47,10 +37,6 @@ export default {
 </script>
 
 <style scoped>
-.splash-om {
-  opacity: 0;
-  animation: heroReveal 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
-}
 .splash-line {
   width: 0;
   height: 2px;
@@ -82,8 +68,8 @@ export default {
   from { width: 0; }
   to   { width: 5rem; }
 }
-@keyframes omPulse {
+@keyframes watermarkPulse {
   0%, 100% { opacity: 0.04; transform: scale(1); }
-  50%       { opacity: 0.07; transform: scale(1.02); }
+  50%       { opacity: 0.08; transform: scale(1.02); }
 }
 </style>
